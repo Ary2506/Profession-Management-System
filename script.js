@@ -26,15 +26,14 @@ function addEmployee() {
 
   const employee = {
     id: idCounter++,
-    name,
-    profession,
-    age
+    name: name,
+    profession: profession,
+    age: age
   };
 
   employees.push(employee);
 
-  message.textContent =
-    "Success : Employee Added!";
+  message.textContent = "Success : Message Added";
   message.className = "success";
 
   nameInput.value = "";
@@ -49,32 +48,37 @@ function renderEmployees() {
 
   if (employees.length === 0) {
     emptyMsg.style.display = "block";
-  } else {
-    emptyMsg.style.display = "none";
+    emptyMsg.innerText = "Data not found";
+    return;
   }
 
-  employees.forEach((employee, index) => {
-    const div = document.createElement("div");
-    div.classList.add("employee");
+  emptyMsg.style.display = "none";
 
-    div.innerHTML = `
+  employees.forEach((employee, index) => {
+    const employeeDiv = document.createElement("div");
+    employeeDiv.classList.add("employee");
+
+    employeeDiv.innerHTML = `
       <div class="employee-info">
         <span>${index + 1}.</span>
-        <span>Name: ${employee.name}</span>
-        <span>Profession: ${employee.profession}</span>
-        <span>Age: ${employee.age}</span>
+        <span>${employee.name}</span>
+        <span>${employee.profession}</span>
+        <span>${employee.age}</span>
       </div>
 
       <button class="delete-btn" onclick="deleteEmployee(${employee.id})">
-        Delete User
+        Delete
       </button>
     `;
 
-    employeeList.appendChild(div);
+    employeeList.appendChild(employeeDiv);
   });
 }
 
 function deleteEmployee(id) {
   employees = employees.filter(employee => employee.id !== id);
   renderEmployees();
-}   
+}
+
+// Initial state
+renderEmployees();
